@@ -47,8 +47,8 @@ FSJS project 2 - List Filter and Pagination
            list[i].style.display = 'none';
         }
     }
- }
-
+ 
+   }
 
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
@@ -59,19 +59,36 @@ FSJS project 2 - List Filter and Pagination
      const div = document.createElement('div');
      const ul = document.createElement('ul');
      const divPage = document.querySelector('.page');
-   
      const liNum = Math.ceil(list.length / 10);
 
       for(let i = 0 ; i < liNum; i++) {
         let li = document.createElement('li');
         let a = document.createElement('a');
 
-         if (i === 0) {
-            a.className = 'active';
-         }
-         
          a.setAttribute('href', '#');
          a.textContent = i + 1;
+       
+        if(parseInt(a.textContent) === 1) {
+             a.className = 'active';
+        }
+
+         a.addEventListener('click', function (e) {
+            const links = document.querySelectorAll('a');
+            const pageNum = parseInt(e.target.textContent);
+
+            for(let i = 0; i < links.length; i++) {
+              const currentPage = links[i];
+              const linkNumber = parseInt(currentPage.textContent);
+
+              if(linkNumber === pageNum) {
+                   currentPage.className = 'active';
+              }else {
+                 currentPage.removeAttribute('class');
+              }
+            }
+            showPage(listItem, pageNum);
+
+         })
          
          li.appendChild(a);
          ul.appendChild(li);
@@ -79,16 +96,11 @@ FSJS project 2 - List Filter and Pagination
 
       div.className = 'pagination';
 
-    //append them to each other
-     div.appendChild(ul);
-     divPage.appendChild(div);
-
+      //append them to each other
+      div.appendChild(ul);
+      divPage.appendChild(div);
  }
-
  appendPageLinks(listItem);
 
-
-
-
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
-showPage(listItem, 5);
+showPage(listItem, 1);
