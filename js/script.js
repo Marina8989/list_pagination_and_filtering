@@ -37,24 +37,58 @@ FSJS project 2 - List Filter and Pagination
 ***/
 
  function showPage(list, page) {
-    let startIndex = page * numOfItemsToShow - numOfItemsToShow;
+    let startIndex = (page * numOfItemsToShow) - numOfItemsToShow;
     let endIndex = page * numOfItemsToShow;
      
     for(let i = 0; i < list.length; i++) {
-        if(list[i] >= startIndex  && list[i] < endIndex) {
-              console.log(list[i])
+        if(i >= startIndex  && i < endIndex) {
+           list[i].style.display = 'block';
+        }else {
+           list[i].style.display = 'none';
         }
     }
  }
-showPage(listItem, 1);
+
 
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
+ function appendPageLinks(list) {
+    // create elements
+     const div = document.createElement('div');
+     const ul = document.createElement('ul');
+     const divPage = document.querySelector('.page');
+   
+     const liNum = Math.ceil(list.length / 10);
 
+      for(let i = 0 ; i < liNum; i++) {
+        let li = document.createElement('li');
+        let a = document.createElement('a');
+
+         if (i === 0) {
+            a.className = 'active';
+         }
+         
+         a.setAttribute('href', '#');
+         a.textContent = i + 1;
+         
+         li.appendChild(a);
+         ul.appendChild(li);
+      }
+
+      div.className = 'pagination';
+
+    //append them to each other
+     div.appendChild(ul);
+     divPage.appendChild(div);
+
+ }
+
+ appendPageLinks(listItem);
 
 
 
 
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
+showPage(listItem, 5);
