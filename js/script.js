@@ -1,41 +1,11 @@
-/******************************************
-Treehouse Techdegree:
-FSJS project 2 - List Filter and Pagination
-******************************************/
-   
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
 
-
-/*** 
-   Add your global variables that store the DOM elements you will 
-   need to reference and/or manipulate. 
-   
-   But be mindful of which variables should be global and which 
-   should be locally scoped to one of the two main functions you're 
-   going to create. A good general rule of thumb is if the variable 
-   will only be used inside of a function, then it can be locally 
-   scoped to that function.
-***/
- // storing the students list
+ // storing the student's list
  let listItem = document.querySelectorAll('.student-item');
  // number of the items to be shown on the page
  const numOfItemsToShow = 10;
 
-/*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
 
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
-***/
-
+//show only the 10 students per page
  function showPage(list, page) {
     let startIndex = (page * numOfItemsToShow) - numOfItemsToShow;
     let endIndex = page * numOfItemsToShow;
@@ -50,34 +20,36 @@ FSJS project 2 - List Filter and Pagination
  
    }
 
-/*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
-***/
+
+//function to generate and append new elements to the page
  function appendPageLinks(list) {
     // create elements
      const div = document.createElement('div');
      const ul = document.createElement('ul');
+   // element that div will be appended to with all lis and links  
      const divPage = document.querySelector('.page');
+   //number of pages to be displayed
      const liNum = Math.ceil(list.length / 10);
-
+   //create # of lis and links depending on how many pages on the screen
       for(let i = 0 ; i < liNum; i++) {
         let li = document.createElement('li');
         let a = document.createElement('a');
-
+   // add href attributes and text content to links
          a.setAttribute('href', '#');
          a.textContent = i + 1;
-       
+   // add default class to the first link    
         if(parseInt(a.textContent) === 1) {
              a.className = 'active';
         }
-
+   // add class 'active' to the link that was clicked on
          a.addEventListener('click', function (e) {
+          //collect node list of the links  
             const links = document.querySelectorAll('a');
+          //convert the textContent to number   
             const pageNum = parseInt(e.target.textContent);
 
             for(let i = 0; i < links.length; i++) {
-              const currentPage = links[i];
+              const currentPage = links[i];   
               const linkNumber = parseInt(currentPage.textContent);
 
               if(linkNumber === pageNum) {
@@ -86,21 +58,32 @@ FSJS project 2 - List Filter and Pagination
                  currentPage.removeAttribute('class');
               }
             }
+
             showPage(listItem, pageNum);
 
          })
-         
+
+        // append link to list and to ul 
          li.appendChild(a);
          ul.appendChild(li);
       }
-
+   // add class to the div
       div.className = 'pagination';
 
-      //append them to each other
+   //append them to each other
       div.appendChild(ul);
       divPage.appendChild(div);
- }
- appendPageLinks(listItem);
 
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
+ }
+
+appendPageLinks(listItem);
 showPage(listItem, 1);
+
+
+
+    
+
+  
+
+
+ 
